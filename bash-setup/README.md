@@ -1,4 +1,4 @@
-# kube-deep-dive is a repository for learning Kubernetes from the hard way
+# kubernetes-the-hard-way is a repository for learning Kubernetes from the hard way
 
 This repo contains some training and procedure to install k8s from the hard way to understand k8s better.
 And how each component of k8s works and how they interact.
