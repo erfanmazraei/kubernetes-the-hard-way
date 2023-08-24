@@ -1,0 +1,16 @@
+../kube-deep-dive/
+├── dir-tree.txt
+├── etcd-admin.crt
+├── etcd-admin.csr
+├── etcd-admin.key
+├── etcd-ca.crt
+├── etcd-ca.key
+├── etcd-ca.srl
+├── etcd-server.crt
+├── etcd-server.csr
+├── etcd-server.key
+├── ip-plan.txt
+├── key-etcd.sh
+└── openssl-etcd-server.conf
+
+0 directories, 13 files
