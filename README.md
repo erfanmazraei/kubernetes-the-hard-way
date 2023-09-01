@@ -9,6 +9,10 @@ Kubernetes is a powerful container orchestration system that can be used to mana
 
 Kubernetes the Hard Way is a guide that walks you through the process of setting up a Kubernetes cluster from scratch, without using any automation tools. By following this guide, you will gain a deep understanding of how Kubernetes works and how to set it up manually.
 
+##  Why Use Kubernetes the Hard Way?
+
+This project is very useful for learning Kubernetes. By following this guide, you will gain a deep understanding of how Kubernetes works and how to set it up manually. This knowledge will be useful for troubleshooting and debugging Kubernetes issues, as well as for understanding how to customize Kubernetes to fit your specific needs.
+
 ## Prerequisites
 
 Before you begin, you will need the following:
