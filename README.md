@@ -1,7 +1,7 @@
 
 # Kubernetes the Hard Way
 
-This project is a step-by-step guide to setting up a Kubernetes cluster from scratch, without using any automation tools. It is intended for users who want to gain a deeper understanding of how Kubernetes works under the hood.
+This project is a step-by-step guide to setting up a Kubernetes cluster from scratch, without using any automation tools (bash-setup) and also with using automation tools (ansible-setup). It is intended for users who want to gain a deeper understanding of how Kubernetes works under the hood.
 
 ## Introduction
 
