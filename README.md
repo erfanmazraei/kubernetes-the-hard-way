@@ -34,7 +34,7 @@ Before you begin, you will need the following:
 - Basic knowledge of Linux command line: You should be comfortable working with the Linux command line, as many of the tasks in this guide require you to use the command line.
 - Basic knowledge of networking: You should have a basic understanding of networking concepts, such as IP addresses, subnets, and routing.
 
-## Getting Started
+## Getting Started For Installation With Bash Language
 
 To get started, follow these steps:
 
