@@ -13,6 +13,20 @@ Kubernetes the Hard Way is a guide that walks you through the process of setting
 
 This project is very useful for learning Kubernetes. By following this guide, you will gain a deep understanding of how Kubernetes works and how to set it up manually. This knowledge will be useful for troubleshooting and debugging Kubernetes issues, as well as for understanding how to customize Kubernetes to fit your specific needs.
 
+
+## Roadmap
+
+This project is intended to be implemented using Ansible Playbook and Go language, and the new Kubernetes APIs will be used in the file services. The roadmap for this project is as follows:
+
+1. Implement the setup directory using Ansible Playbook. This will automate the process of setting up your environment for the rest of the guide.
+
+2. Implement the Kubernetes configuration files using Go language. This will allow you to define the components of your Kubernetes cluster in a more efficient and flexible way.
+
+3. Use the new Kubernetes APIs in the file services. This will allow you to take advantage of the latest features and improvements in Kubernetes.
+
+4. Continuously update the guide to reflect changes in Kubernetes. Kubernetes is a rapidly evolving system, and this guide will need to be updated regularly to keep up with the latest changes.
+
+
 ## Prerequisites
 
 Before you begin, you will need the following:
