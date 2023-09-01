@@ -52,6 +52,6 @@ git clone https://github.com/erfanmazraei/kubernetes-the-hard-way.git
 
 Congratulations! You have now set up a Kubernetes cluster from scratch using Kubernetes the Hard Way. This guide has given you a deep understanding of how Kubernetes works and how to set it up manually. You can now use this knowledge to troubleshoot and debug Kubernetes issues, as well as to customize Kubernetes to fit your specific needs.
 
-Note: This project is implemented with different programming languages. For now, the setup directory contains Bash scripts that you can use to install Kubernetes step by step using Bash. However, you can adapt this guide to work with other programming languages as well.
+Note: This project is implemented with different programming languages. For now, the bash-setup directory contains Bash scripts that you can use to install Kubernetes step by step using Bash. However, you can adapt this guide to work with other programming languages as well.
 
 For more information on Kubernetes, see the official Kubernetes documentation at https://kubernetes.io/docs/.
