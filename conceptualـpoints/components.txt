@@ -1,0 +1,35 @@
+#########################################################################################
+etcd : (data plane)
+    cloud-native
+    distributed
+    use Qounum 
+        each etcd has vote
+    RAFT
+        select leader and other etcd be follower
+    statefull
+    disk intensive so use ssd or nvme disk for etcd (redis is memoy intensive)
+    etcd same as etcd/any-directory so this databace name is etcd (:
+
+##########################################################################################
+
+control plane :
+    kube-scheduler ( two type schduler : kube-green and energy saver )
+        we have physible node (nodes that cannn accept pod) and one of physible node selected (:
+    kube-contoller-manager
+        manage some controller in cluster
+    kube-api-server
+
+##########################################################################################
+
+worker nodes:
+    runtime
+    kube-proxy
+    kubelet
+
+##########################################################################################
+
+general :
+    all components commonicate with api server and api server with etccd but but butttt some times api-server send request
+    to kubelet (:
+
+##########################################################################################
