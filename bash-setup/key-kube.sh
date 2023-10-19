@@ -7,11 +7,13 @@ openssl req -newkey rsa:2048 -nodes -keyout kube-ca.key -x509 -subj "/CN=kuberne
 openssl x509 -text -noout -in kube-ca.crt
 
 # Generate certificate signing request for kube-admin.
-openssl req -newkey rsa:2048 -nodes -keyout kube-admin.key -subj "/CN=admin/O=system:masters" -out kube-admin.csr
+openssl req -newkey rsa:2048 -nodes -keyout kube-admin.key -subj "/CN=admin/O=system:masters" -out kube-admin.csr # CN same as username and O same as group
 # Sign the certificate CSR of kube-admin with the root CA.
 openssl x509 -req -in kube-admin.csr -CA kube-ca.crt -CAkey kube-ca.key -CAcreateserial -days 3650 -out kube-admin.crt
 # See the details of the certificates.
 openssl x509 -text -noout -in kube-admin.crt
+
+# ok now we must create cert for other components :
 
 # Generate certificate signing request for kube-proxy.
 openssl req -newkey rsa:2048 -nodes -keyout kube-proxy.key -subj "/CN=system:kube-proxy/O=system:node-proxier" -out kube-proxy.csr
@@ -36,7 +38,7 @@ openssl x509 -text -noout -in kube-scheduler.crt
 
 
 # write openssl-kube-apiserver.conf config file for apiserver.
-vim openssl-kube-apiserver.conf
+vim openssl-kube-apiserver.conf # you can see this file in this project and bash-setup directory
 
 # Generate certificate signing request for kube-apiserver.
 openssl req -newkey rsa:2048 -nodes -keyout kube-apiserver.key -subj "/CN=kube-apiserver" -config openssl-kube-apiserver.conf -out kube-apiserver.csr
@@ -47,7 +49,7 @@ openssl x509 -text -noout -in kube-apiserver.crt
 
 
 # write openssl-kube-apiserver-to-kubelet.conf config file for kube-apiserver-to-kubelet connection.
-vim openssl-kube-apiserver-to-kubelet.conf
+vim openssl-kube-apiserver-to-kubelet.conf  # you can see this file in this project and bash-setup directory
 
 # Generate certificate signing request for kube-apiserver-to-kubelet.
 openssl req -newkey rsa:2048 -nodes -keyout kube-apiserver-to-kubelet.key -subj "/CN=system:kube-apiserver-to-kubelet/O=system:kube-apiserver-to-kubelet" -config openssl-kube-apiserver-to-kubelet.conf -out kube-apiserver-to-kubelet.csr
@@ -58,6 +60,7 @@ openssl x509 -text -noout -in kube-apiserver-to-kubelet.crt
 
 
 # Generate certificate signing request for service-account.
+# when we create serviceaccount in k8s , they singned by this cert !
 openssl req -newkey rsa:2048 -nodes -keyout service-account.key -subj "/CN=service-accounts" -out service-account.csr
 # Sign the certificate CSR of kube-scheduler with the root CA.
 openssl x509 -req -in service-account.csr -CA kube-ca.crt -CAkey kube-ca.key -CAcreateserial -days 3650 -out service-account.crt
@@ -125,7 +128,7 @@ cat kube-proxy.kubeconfig
 
 
 ## Create encryption-config.yaml file to encrypt secrets at first and store them encrypted on etcd.
-vim encryption-config.yaml
+vim encryption-config.yaml  # you can see this file in this project and bash-setup directory
 # Generate random secret and put it on `secret` field of encryption-config.yaml.
 head -c 32 /dev/urandom | base64
 
@@ -145,16 +148,18 @@ done
 mkdir -p /etc/kubernetes/certs
 mkdir -p /etc/kubernetes/configs
 mkdir -p /etc/kubernetes/manifests
+
 # Move certs and keys and files to their folders.
 mv ./*.crt ./*.key /etc/kubernetes/certs/
 mv ./*.kubeconfig ./cencryption-config.yaml /etc/kubernetes/configs/
+
 # Change ownership and permissions of files.
 chown -R root: /etc/kubernetes/
 chmod -R 600 /etc/kubernetes/
 
 # Create systemd service file for apiserver.
 apt install -y jq
-vim svc-apiserver.sh
+vim svc-apiserver.sh  # you can see this file in this project and bash-setup directory
 ./svc-apiserver.sh
 
 # Start apiserver service.
@@ -165,7 +170,7 @@ systemctl start kube-apiserver
 
 # Because we don't setup loadbalancer yet, we edit kube-admin.kubeconfig server section
 # from loadbalancer to first apiserver node so we can connect to apiserver.
-vim kube-admin.kubeconfig
+vim kube-admin.kubeconfig # we put address of loadbalancer in server field , but now we dont have loadbalancer and you must set ip of one of control plane node for test
 
 ## Run these command to check apiserver is functional.
 # We don't have any node but connection is established.
