@@ -29,17 +29,17 @@ systemctl start kube-controller-manager
 
 
 ## Setup loadbalancer nodes.
-apt install haproxy keepalived
+apt install haproxy keepalived 
 # Set required dns records of apiservers in loadbalancer nodes.
 vim /etc/hosts
 
 ## Edit keepalived config files
 # on node1 put keepalived-master.conf.
-vim /etc/keepalived/keepalived.conf
+vim /etc/keepalived/keepalived.conf # you can see this file in this project and bash-setup directory
 # on node1 put keepalived-backup.conf.
-vim /etc/keepalived/keepalived.conf
+vim /etc/keepalived/keepalived.conf # you can see this file in this project and bash-setup directory
 # on both node:
-vim /etc/default/keepalived
+vim /etc/default/keepalived # you can see this file in this project and bash-setup directory
 
 # Start keepalived service.
 systemctl daemon-reload
