@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 
 
-# Install binary of kube-controller-manager and kube-scheduler in `/usr/local/bin/`
+# Install binary of kube-controller-manager and kube-scheduler in `/usr/local/bin/`  ( in controller nodes )
 install kubernetes/server/bin/kube-controller-manager /usr/local/bin/
 install kubernetes/server/bin/kube-scheduler /usr/local/bin/
 
 # Create systemd service file for kube-controller-manager.
-vim svc-controller-manager.sh
+vim svc-controller-manager.sh # you can see this file in this project and bash-setup directory
 ./svc-controller-manager.sh
 # In the above config, we have option `--cluster-signing-cert-file`, `--cluster-signing-key-file`
 # which are used to sign certificates requests that used in RBAC (also needed in node bootstrap) and need key of ca,
 # so it's better to create a chain and use intermediate as ca not the main one.
-for i in k8s-contorller1 k8s-contorller2 k8s-contorller3; do
+for i in k8s-contorller1 k8s-contorller2 k8s-contorller3; do # this file  use from svc-controller-manager.sh
   scp kube-ca.key root@"${i}":/root/
 done
 mv ./*.key /etc/kubernetes/certs/
