@@ -10,6 +10,7 @@ vim /etc/fstab
 # Config cgroup and disable ipv6 on grub then update grub.
 vim /etc/default/grub
 # Edit this line -> GRUB_CMDLINE_LINUX_DEFAULT="systemd.unified_cgroup_hierarchy=0 ipv6.disable=1"
+# this parameter is used in the /etc/default/grub file to disable the unified cgroup hierarchy and revert to the legacy cgroup hierarchy
 update-grub
 
 # Enable and load br_netfilter module.
@@ -18,7 +19,7 @@ echo br_netfilter >> /etc/modules
 
 # Config kernel parameters for br_netfilter and ip_forward.
 cat <<EOF > /etc/sysctl.d/10-kubernetes.conf
-net.bridge.bridge-nf-call-iptables=1
+net.bridge.bridge-nf-call-iptables=1  # we must do thing that bucket filtring work for bridge
 net.ipv4.ip_forward=1
 EOF
 
@@ -29,7 +30,7 @@ sysctl --system
 vim /etc/systemd/resolved.conf
 # Edit this line -> DNS=1.1.1.1
 systemctl daemon-reload
-systemctl restart systemd-resolved
+systemctl restart systemd-resolved.service
 # Check DNS with these commands.
 systemd-resolve --status
 # or
@@ -60,11 +61,11 @@ mkdir -p /opt/cni/bin/
 tar -xvf cni-plugins-linux-amd64-v1.3.0.tgz -C /opt/cni/bin/
 
 # Enable and load overlay module.
-modprobe overlay
+modprobe overlay # some image hase layer layer ... and wee need overlay module
 echo overlay >> /etc/modules
 
 # Create systemd service file for containerd.
-vim svc-containerd.sh
+vim svc-containerd.sh # you can see this file in this project and in bash-setup directory
 ./svc-containerd.sh
 
 # Start containerd service.
@@ -72,9 +73,10 @@ systemctl daemon-reload
 systemctl enable containerd
 systemctl start containerd
 
+# ok (:
 
 # write openssl-kubelet-worker-k8s-node1.conf config file for kubelet of k8s-node1.
-vim openssl-kubelet-worker-k8s-node1.conf
+vim openssl-kubelet-worker-k8s-node1.conf # you can see this file in this project and bash-setup directory this is diferent for each server 
 
 # Generate certificate signing request for kubelet on k8s-node1.
 openssl req -newkey rsa:2048 -nodes -keyout kube-worker-k8s-node1.key -subj "/CN=system:node:k8s-node1/O=system:nodes" -config openssl-kubelet-worker-k8s-node1.conf -out kube-worker-k8s-node1.csr
@@ -97,13 +99,14 @@ kubectl config use-context default --kubeconfig kube-worker-k8s-node1.kubeconfig
 cat kube-worker-k8s-node1.kubeconfig
 
 
+# Move required certs and files to k8s-node1 node.
+scp kube-ca.crt kube-proxy.crt kube-proxy.key kube-proxy.kubeconfig kube-worker-k8s-node1.crt kube-worker-k8s-node1.key kube-worker-k8s-node1.kubeconfig root@k8s-node1:/root/
+
+# in worker server :
 # Download and extract kubernetes server binary and move to `/usr/local/bin/`.
 wget https://dl.k8s.io/v1.26.4/kubernetes-server-linux-amd64.tar.gz
 tar -xvf kubernetes-server-linux-amd64.tar.gz
 mv kubernetes/server/bin/{kube-proxy,kubelet} /usr/local/bin/
-
-# Move required certs and files to k8s-node1 node.
-scp kube-ca.crt kube-proxy.crt kube-proxy.key kube-proxy.kubeconfig kube-worker-k8s-node1.crt kube-worker-k8s-node1.key kube-worker-k8s-node1.kubeconfig root@k8s-node1:/root/
 
 # Create required direcotories and their permissions.
 mkdir -p /etc/kubernetes/certs
@@ -114,14 +117,15 @@ mv ./*.crt ./*.key /etc/kubernetes/certs/
 mv ./*.kubeconfig /etc/kubernetes/configs/
 # Change ownership and permissions of files.
 chown -R root: /etc/kubernetes/
-chmod -R 600 /etc/kubernetes/
+chmod -R 600 /etc/kubernetes/certs/
+chmod 700 /etc/kubernetes/certs/
 
 # Set required dns record of worker-k8s-node1 in controller nodes and worker-k8s-node1.
 vim /etc/hosts
 
 
 # Create `kubelet.yaml` config file for kubelet of worker-k8s-node1.
-vim /etc/kubernetes/configs/kubelet.yaml
+vim /etc/kubernetes/configs/kubelet.yaml        
 # Create systemd service file for kubelet of worker-k8s-node1.
 vim svc-kubelet.sh
 ./svc-kubelet.sh
@@ -144,6 +148,11 @@ vim /etc/cni/net.d/99-loopback.conf
 systemctl daemon-reload
 systemctl enable --now kubelet
 systemctl enable --now kube-proxy
+
+
+mkdir /etc/containerd
+containerd config default > /etc/containerd/cofig.toml
+systemctl restart caontainerd.service
 
 ## Now the node has been registered to apiserver and is in ready state.
 # the path of cni configs `/etc/cni` is actively monitored and if the configs move from there

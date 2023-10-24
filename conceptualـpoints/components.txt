@@ -31,5 +31,7 @@ worker nodes:
 general :
     all components commonicate with api server and api server with etccd but but butttt some times api-server send request
     to kubelet (:
+    in each cluster ip of service dns = .10 of service cidr for example service cidr = 10.10.0.0/16 so myservice dns ip = 10.10.0.10
+    what is static pod ? this pod not managed by api server and kublet run this pod by ownself
 
 ##########################################################################################
