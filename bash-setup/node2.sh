@@ -144,7 +144,7 @@ kubectl get clusterrolebindings.rbac.authorization.k8s.io
 # Set cluster and ca certificate in kubeconfig file.(the server address is the address of loadbalancer)
 kubectl config set-cluster cluster.local --certificate-authority=kube-ca.crt --embed-certs --server https://89.34.98.145:6443 --kubeconfig kube-bootstrap.kubeconfig
 # Create bootstrap-token and its credentials in kubeconfig file.
-kubectl config set-credentials bootstrap-token --token abc123.f78baa5b8d5a4bc5 --kubeconfig kube-bootstrap.kubeconfig
+kubectl config set-credentials bootstrap-token --token abc123.f78baa5b8d5a4bc5 --kubeconfig kube-bootstrap.kubeconfig # --token tkenid.secret
 # Create context `default` and it's required cluster and user in kubeconfig file.
 kubectl config set-context default --cluster cluster.local --user bootstrap-token --kubeconfig kube-bootstrap.kubeconfig
 # Set current context to use `default` in kubeconfig file.
@@ -195,7 +195,7 @@ kubectl -n kube-node-lease get leases.coordination.k8s.io
 # NAME        HOLDER      AGE
 # k8s-node1   k8s-node1   2d5h
 # k8s-node2   k8s-node2   18m
-kubectl -n kube-system get leases.coordination.k8s.io
+kubectl -n kube-system get leases.coordination.k8s.io # you can see kube-controller-manager leader
 # NAME                                        HOLDER                                                                           AGE
 # kube-apiserver-d4ftos6jtdwdvmqptijaf7bv5u   kube-apiserver-d4ftos6jtdwdvmqptijaf7bv5u_0a1fccbc-fa62-4093-b337-f33707313d4a   5d5h
 # kube-apiserver-mjrw33vzr3t6zn3di523isazie   kube-apiserver-mjrw33vzr3t6zn3di523isazie_de4d1367-0925-47ec-a68d-e25221ac2ca8   5d5h

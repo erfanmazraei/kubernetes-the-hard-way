@@ -58,6 +58,8 @@ kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/
 ## Now trying to install cni calico on fresh k8s.
 # to delete flannel you can change run this.
 kubectl delete -f kube-flannel.yml
+# you must check these directories that not exist any files : /opt/cni/bin and /etc/cni/net.d/
+# this is necessery that remove : /etc/cni/net.d/* but /opt/cni/bin/* not necessery 
 
 # no install CRD of calico.
 wget https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/tigera-operator.yaml
@@ -79,3 +81,8 @@ kubectl apply -f calicoctl.yaml
 
 
 ## There is some topics about optmise the k8s cluster etcd on episode 4_2 of k8s from the hard way.
+
+
+#*********************************** 
+# when you want change cni in production :
+#  you app must be on other nodes
