@@ -1,0 +1,12 @@
+# see list of container :
+    ctr c ls
+##################################
+# pull image with ctr :
+    ctr i pull quay.io/bedrock/nginx:alpine3.17-slim
+##################################
+# see image list :
+    ctr i ls
+##################################
+# create container :
+    ctr c create quay.io/bedrock/nginx:alpine3.17-slim test
+##################################

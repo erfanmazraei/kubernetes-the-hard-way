@@ -79,7 +79,10 @@ kubectl get no -o wide
 vim pod.yaml
 kubectl apply -f pod.yaml
 
-######
+#
+# if you set image nginx you have problem
+# you must set docker.io/nginx orrrrrr you do  this :
+
 # The above config works fine, but in kube-deep-dive course after some debugging it end of with this config for solving problem.
 cat <<EOF > /etc/crio/crio.conf
 [crio.image]
@@ -112,6 +115,7 @@ kubectl exec test -- nginx -v
 ## This error is because apiserver need to connect kubelet for specific action like exec, port-farwarding, etc.
 ## We generate a cert for this purpose but it's not allowed now, because we don't have any rbac for it.
 ## To solve this issue we need to build clusterRole and clusterRoleBinding for the 'system:kube-apiserver-to-kubelet' user.
+# because our api server is authenticate but not auothoruze , so you must create cluster-role
 vim apiserver-to-kubelet.yaml
 kubectl apply -f apiserver-to-kubelet.yaml
 # clusterrole.rbac.authorization.k8s.io/system:kube-apiserver-to-kubelet created
